@@ -1,0 +1,9 @@
+.content {
+    padding: 16px;
+    transition: padding-top 0.3s;
+  }
+  
+  .sticky + .content {
+    padding-top: 60px;
+  }
+  
