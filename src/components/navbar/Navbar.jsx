@@ -1,14 +1,16 @@
 import React, { useEffect } from "react";
 import styles from "./Navbar.module.css";
+import {NavLink} from "react-router-dom";
 
 const Navbar = () => {
   useEffect(() => {
     const navbar = document.getElementById("navbar");
     const content = document.getElementById("content");
     const sticky = navbar.offsetTop;
-    const navbarHeight = navbar.offsetHeight + 30;
+    
 
     const handleScroll = () => {
+      const navbarHeight = navbar.offsetHeight + 30;
       if (window.scrollY >= sticky) {
         navbar.classList.add(styles.sticky);
         content.style.paddingTop = `${navbarHeight}px`;
@@ -19,43 +21,26 @@ const Navbar = () => {
     };
 
     window.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleScroll);
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
     };
   }, []);
 
   return (
+    
     <div id="navbar" className={styles.navbar}>
-      <a className={`${styles.a} ${styles.active}`} href="/">
-        На головну
-      </a>
-      <a className={styles.a} href="safety">
-        Охорона праці
-      </a>
-      <a className={styles.a} href="technique">
-        Техніка
-      </a>
-      <a className={styles.a} href="equipment">
-        Обладнання
-      </a>
-      <a className={styles.a} href="tool">
-        Інструмент
-      </a>
-      <a className={styles.a} href="work">
-        Роботи
-      </a>
-      <a className={styles.a} href="violation">
-        Порушення
-      </a>
-      <a className={styles.a} href="pass">
-        Пропуск
-      </a>
-      <a className={styles.a} href="normative">
-        Нормативна база
-      </a>
-      <a className={styles.a} href="notes">
-        Нотатки
-      </a>
+     <NavLink className={({isActive}) => isActive ? `${styles.a} ${styles.active}` : styles.a} to={"/"}>На головну</NavLink>
+     <NavLink className={({isActive}) => isActive ? `${styles.a} ${styles.active}` : styles.a} to={"safety"}>Охорона праці</NavLink>
+     <NavLink className={({isActive}) => isActive ? `${styles.a} ${styles.active}` : styles.a} to={"technique"}>Техніка</NavLink>
+     <NavLink className={({isActive}) => isActive ? `${styles.a} ${styles.active}` : styles.a} to={"equipment"}>Обладнання</NavLink>
+     <NavLink className={({isActive}) => isActive ? `${styles.a} ${styles.active}` : styles.a} to={"tool"}>Інструмент</NavLink>
+     <NavLink className={({isActive}) => isActive ? `${styles.a} ${styles.active}` : styles.a} to={"work"}>Роботи</NavLink>
+     <NavLink className={({isActive}) => isActive ? `${styles.a} ${styles.active}` : styles.a} to={"violation"}>Порушення</NavLink>
+     <NavLink className={({isActive}) => isActive ? `${styles.a} ${styles.active}` : styles.a} to={"pass"}>Пропуск</NavLink>
+     <NavLink className={({isActive}) => isActive ? `${styles.a} ${styles.active}` : styles.a} to={"normative"}>Нормативна база</NavLink>
+     <NavLink className={({isActive}) => isActive ? `${styles.a} ${styles.active}` : styles.a} to={"notes"}>Нотатки</NavLink>
     </div>
   );
 };
