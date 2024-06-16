@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import FormField from "./FormField";
-import FormButton from "./FormButton";
+import FormField from "./UI/form/FormField";
 import DateInput from "./DateInput";
 import { validateFormEmployee } from "../functions/validations";
 import { cheсk } from "../functions/validations";
@@ -82,7 +81,7 @@ const Form = () => {
         value={formData.instruction}
         onCange={handleChange}
       />
-      <FormButton onClick={handleSubmit} />
+      <FormButton>Зберігти</FormButton>
     </form>
   );
 };

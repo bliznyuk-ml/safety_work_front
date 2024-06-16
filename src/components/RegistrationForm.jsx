@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import FormField from "./FormField";
-import FormButton from "./FormButton";
+import FormField from "./UI/form/FormField";
+import FormButton from "./UI/button/FormButton";
 import axios from "axios";
 import ErrorModal from "./errorModal/ErrorModal";
 
@@ -36,6 +36,14 @@ function RegistrationForm(props) {
       });
       setErrorMessage(null); // Очистить сообщение об ошибке при успешной отправке
     } catch (error) {
+        if(error.response){
+          setErrorMessage(error.response.data.message);
+        } else if (error.request){
+          setErrorMessage("Сервер не відповідає");
+        } else {
+          setErrorMessage("Виникла помилка при налаштуванні запиту");
+        }
+
       console.log("Error");
       setErrorMessage(error.response.data.message);
       // Установить сообщение об ошибке
@@ -80,7 +88,7 @@ function RegistrationForm(props) {
           value={formData.email}
           onChange={handleChange}
         />
-        <FormButton onClick={handleSubmit} />
+        <FormButton onClick={handleSubmit}>Зберігти</FormButton>
       </form>
       {errorMessage && (
         <ErrorModal message={errorMessage} onClose={closeModal} />
