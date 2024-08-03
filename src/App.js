@@ -5,10 +5,11 @@ import { BrowserRouter } from "react-router-dom";
 import Header from "./components/header/Header";
 import Content from "./components/content/Content";
 import Navbar from "./components/navbar/Navbar";
+import { AuthProvider } from "./context/AuthContext";
 
 function App() {
   return (
-   
+   <AuthProvider>
       <BrowserRouter>
       <Header />
       <Navbar />
@@ -17,7 +18,7 @@ function App() {
       <h1>Form</h1>
       <RegistrationForm />
       </BrowserRouter>
-
+    </AuthProvider>
   );
 }
 

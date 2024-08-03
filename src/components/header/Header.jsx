@@ -1,46 +1,25 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "./Header.module.css";
 import LoginButton from "./loginButton/LoginButton";
-import LoginModal from "./loginModal/LoginModal";
+import { AuthContext } from "../../context/AuthContext";
 
 function Header() {
-const [isModalOpen, setIsModalOpen] = useState(false);
-const [userInfo, setUserInfo] = useState(null);
+const {user, handleLogout} = useContext(AuthContext);
 
-const handleLoginSuccess = (decodedToken) => {
-  const firstName = decodedToken.first_name || "Ім'я відсутнє";
-  console.log(firstName);
-  const lastName = decodedToken.last_name || "Прізвище відсутнє";
-  console.log(lastName);
-  setUserInfo({firstName, lastName});
-}
-  
   return (
-    // <div className={styles.header}>
-    //   <div className={styles.headerContent}>
-    //   <h2>SAFETY WORK</h2>
-    //   <p>Scroll down to see the sticky effect.</p>
-    //   </div>
-    //   <LoginButton/>
-    // </div>
-
-    <div className={styles.header}>
+<header className={styles.header}>
       <h2>SAFETY WORK</h2>
       <p>Scroll down to see the sticky effect.</p>
-      {userInfo ? (
-        <div className={styles.userInfo}>
-          {userInfo.firstName} {userInfo.lastName}
-        </div>
+      {user ? (
+        <>
+          <p>{user.first_name || 'Имя отсутствует'} {user.last_name || 'Фамилия отсутствует'}</p>
+          <button onClick={handleLogout}>Вихід</button>
+        </>
       ) : (
-        <LoginButton onClick={() => setIsModalOpen(true)} />
+        <LoginButton />
       )}
-      {isModalOpen && (
-        <LoginModal
-          closeModal={() => setIsModalOpen(false)}
-          onLoginSuccess={handleLoginSuccess}
-        />
-      )}
-    </div>
+    </header>
+
   );
 }
 

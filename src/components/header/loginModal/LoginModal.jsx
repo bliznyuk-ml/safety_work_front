@@ -3,6 +3,7 @@ import axios from 'axios';
 import styles from './LoginModal.module.css'
 import ErrorModal from '../../errorModal/ErrorModal';
 import { jwtDecode } from 'jwt-decode';
+import { login } from '../../../services/authService';
 
 function LoginModal({closeModal, onLoginSuccess}) {
 
@@ -14,16 +15,19 @@ const handleLogin = async (e) => {
   e.preventDefault();
 
   try{
-    const response = await axios.post("http://localhost:8189/demo/auth",{
+    const response = await axios.post("http://localhost:8189/login",{
       username,
       password,
-    });
-    const token = response.data.token;
+    },  );
+    const token = response.data.accessToken;
     console.log("JWT Token", token);
     const decodedToken = jwtDecode(token);
-    console.log(decodedToken);
+    console.log("Decoded token", decodedToken);
     onLoginSuccess(decodedToken);
     
+    closeModal();
+
+    await login(username, password);
     closeModal();
   } catch (err) {
     setError(err.response?.data?.message || "Помилка аутентифікації");
@@ -33,7 +37,6 @@ const handleLogin = async (e) => {
 const handleCloseErrorModal = () => {
   setError("");
 };
-
 
     return (
       <div className={styles.modal}>

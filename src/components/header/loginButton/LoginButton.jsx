@@ -1,24 +1,40 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import styles from './LoginButton.module.css'
 import LoginModal from '../loginModal/LoginModal';
+import { AuthContext } from '../../../context/AuthContext';
 
-function LoginButton({onClick}) {
-    // const [isModalOpen, setIsModalOpen] = useState(false);
+const LoginButton = () => {
+  const { isAuthenticated, login, logout } = useContext(AuthContext);
+  const [showModal, setShowModal] = useState(false);
 
-    // const openModal = () => setIsModalOpen(true);
-    // const closeModal = () => setIsModalOpen(false);
+  const handleLoginClick = () => {
+      setShowModal(true);
+  };
 
-    return (
-    //     <div>
-    //         <button id='loginButton' className={styles.authButton} onClick={openModal}>
-    //     Авторизуватись
-    //   </button>
-    //   {isModalOpen && <LoginModal closeModal={closeModal} />}
-    //     </div>
-    <button className={styles.button} onClick={onClick}>
-      Авторизуватись
-    </button>
-    );
-}
+  const handleCloseModal = () => {
+      setShowModal(false);
+  };
+
+  const handleLogoutClick = () => {
+      logout();
+  };
+
+  const handleLoginSuccess = (decodedToken) => {
+    login(decodedToken);
+};
+
+  return (
+      <div>
+          {isAuthenticated ? (
+              <button onClick={handleLogoutClick} className={styles.button}>Вихід</button>
+          ) : (
+              <button onClick={handleLoginClick} className={styles.button}>Авторизуватися</button>
+          )}
+          {showModal && (
+          <LoginModal closeModal={handleCloseModal} onLoginSuccess={handleLoginSuccess}/>
+)}
+      </div>
+  );
+};
 
 export default LoginButton;
