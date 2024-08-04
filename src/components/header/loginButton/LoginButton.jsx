@@ -4,7 +4,7 @@ import LoginModal from '../loginModal/LoginModal';
 import { AuthContext } from '../../../context/AuthContext';
 
 const LoginButton = () => {
-  const { isAuthenticated, login, logout } = useContext(AuthContext);
+  const { user, handleLogin, handleLogout } = useContext(AuthContext);
   const [showModal, setShowModal] = useState(false);
 
   const handleLoginClick = () => {
@@ -15,18 +15,20 @@ const LoginButton = () => {
       setShowModal(false);
   };
 
-  const handleLogoutClick = () => {
-      logout();
-  };
+//   const handleLogoutClick = () => {
+//       logout();
+//   };
 
   const handleLoginSuccess = (decodedToken) => {
-    login(decodedToken);
+    setShowModal(false);
+    handleLogin(decodedToken);
+    //console.log("Hello Auth");
 };
 
   return (
       <div>
-          {isAuthenticated ? (
-              <button onClick={handleLogoutClick} className={styles.button}>Вихід</button>
+          {user ? (
+              <button onClick={handleLogout} className={styles.button}>Вихід</button>
           ) : (
               <button onClick={handleLoginClick} className={styles.button}>Авторизуватися</button>
           )}

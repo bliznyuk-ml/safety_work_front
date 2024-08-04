@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from "react";
-import {login, refreshToken, logout} from '../services/authService';
+import {refreshToken, logout} from '../services/authService';
 import {jwtDecode} from 'jwt-decode';
 
 const AuthContext = createContext();
@@ -7,15 +7,16 @@ const AuthContext = createContext();
 const AuthProvider = ({children}) => {
     const [user, setUser] = useState(null);
 
-    const handleLogin = async (username, password) => {
-    try{
-        const data = await login(username, password);
-        const decodedToken = jwtDecode(data.token);
-        setUser(decodedToken);
-    } catch (error) {
-        console.error(error.message);
-        throw error;
-    }
+    const handleLogin = (decodedToken) => {
+    // try{
+    //     const data = await login(username, password);
+    //     const decodedToken = jwtDecode(data.accessToken);
+    //     setUser(decodedToken);
+    // } catch (error) {
+    //     console.error(error.message);
+    //     throw error;
+    // }
+    setUser(decodedToken);
 };
 
 const handleLogout = () => {
@@ -27,7 +28,7 @@ useEffect(() => {
     const autoRefreshToken = async () => {
         try{
             const data = await refreshToken();
-            const decodedToken = jwtDecode(data.token);
+            const decodedToken = jwtDecode(data.accessToken);
             setUser(decodedToken);
         } catch (error) {
             console.error(error.message);
@@ -36,7 +37,7 @@ useEffect(() => {
 
     const interval = setInterval(() => {
         autoRefreshToken();
-    }, 9*60*1000); // Refresh every 9 minutes
+    }, 1*60*1000); // Refresh every 1 minutes
     return () => clearInterval(interval);
 }, []);
 
